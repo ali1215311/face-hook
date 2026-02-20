@@ -2,13 +2,18 @@ import { Link } from "react-router";
 import HomeIcon from "../../assets/icons/home.svg";
 
 import NotificationIcon from "../../assets/icons/notification.svg";
-import AvatarIcon from "../../assets/images/avatars/avatar_1.png";
 import Logo from "../../assets/images/logo.svg";
 import { useAuth } from "../../hooks/useAuth";
+import { useProfile } from "../../hooks/useProfile";
 import LogOut from "../auth/LogOut";
+
+const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
 
 const Header = () => {
   const { auth } = useAuth();
+  const { state } = useProfile();
+
+  const user = state?.user ?? auth?.user;
   return (
     <>
       <nav className="sticky top-0 z-50 border-b border-[#3F3F3F] bg-[#1E1F24] py-4">
@@ -30,11 +35,11 @@ const Header = () => {
 
             <Link to="/me" className="flex-center ml-8! gap-3">
               <span className="text-lg font-medium lg:text-xl">
-                {auth?.user?.firstName}
+                {user?.firstName} {user?.lastName}
               </span>
               <img
-                className="max-h-8 max-w-8 lg:max-h-11 lg:max-w-11"
-                src={AvatarIcon}
+                className="max-h-8 max-w-8 rounded-full lg:max-h-11 lg:max-w-11"
+                src={`${BASE_URL}/${user?.avatar}`}
                 alt="avatar"
               />
             </Link>
