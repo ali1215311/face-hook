@@ -1,24 +1,38 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+// import { api } from "../../api";
 import { useAuth } from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 import Field from "../common/Field";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const { setAuth } = useAuth();
+  const api = useAxios();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
-  const submitForm = (formData) => {
-    console.log(formData);
+  const submitForm = async (formData) => {
+    try {
+      const response = await api.post(`/auth/login`, formData);
+      const { user, token } = response.data;
+      const authToken = token.token;
+      const refreshToken = token.refreshToken;
+      setAuth({ user, authToken, refreshToken });
 
-    const user = { ...formData };
-    setAuth({ user });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
 
-    navigate("/");
+      setError("root.random", {
+        type: "random",
+        message: `No user registered under the email: ${formData.email}`,
+      });
+    }
   };
 
   return (
@@ -37,6 +51,11 @@ const LoginForm = () => {
             {...register("email", { required: "Email is required!" })}
           />
         </Field>
+        {!!errors.root?.random && (
+          <p className="font-semibold text-red-400">
+            {errors.root.random.message}
+          </p>
+        )}
         <Field label={"Password"} error={errors.password}>
           <input
             className={`auth-input ${errors.password ? "border-red-500" : "border-gray-200"}`}
