@@ -12,7 +12,10 @@ const HomePage = () => {
   const { auth } = useAuth();
   const { state: profileState } = useProfile();
 
-  const avatar = profileState?.user?.avatar ?? auth?.user?.avatar;
+  const avatar =
+    profileState?.user?.avatar ??
+    auth?.user?.avatar ??
+    "uploads/avatar/avatar-1771783501566-635770722.jpg";
 
   useEffect(() => {
     dispatch({ type: actions.posts.DATA_FETCHING });

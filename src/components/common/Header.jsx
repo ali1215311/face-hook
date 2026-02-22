@@ -14,6 +14,8 @@ const Header = () => {
   const { state } = useProfile();
 
   const user = state?.user ?? auth?.user;
+  const avatar =
+    user?.avatar ?? "uploads/avatar/avatar-1771783501566-635770722.jpg";
   return (
     <>
       <nav className="sticky top-0 z-50 border-b border-[#3F3F3F] bg-[#1E1F24] py-4">
@@ -39,7 +41,7 @@ const Header = () => {
               </span>
               <img
                 className="max-h-8 max-w-8 rounded-full lg:max-h-11 lg:max-w-11"
-                src={`${BASE_URL}/${user?.avatar}`}
+                src={`${BASE_URL}/${avatar}`}
                 alt="avatar"
               />
             </Link>

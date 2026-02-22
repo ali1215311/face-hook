@@ -6,8 +6,8 @@ const api = axios.create({
   baseURL: BASE_URL,
 });
 
-const refreshApi = axios.create({
+const registerApi = axios.create({
   baseURL: BASE_URL,
 });
 
-export { api, refreshApi };
+export { api, registerApi };

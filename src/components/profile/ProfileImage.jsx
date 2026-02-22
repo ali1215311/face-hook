@@ -12,6 +12,9 @@ const ProfileImage = () => {
 
   const fileUploadRef = useRef();
 
+  const avatar =
+    state?.user?.avatar ?? "uploads/avatar/avatar-1771783501566-635770722.jpg";
+
   const handleUploadPhoto = (e) => {
     e.preventDefault();
     fileUploadRef.current.click();
@@ -51,7 +54,7 @@ const ProfileImage = () => {
         <div className="h-45 w-45 overflow-hidden rounded-full">
           <img
             className="max-w-full"
-            src={`${BASE_URL}/${state?.user?.avatar}`}
+            src={`${BASE_URL}/${avatar}`}
             alt={state?.user?.firstName}
           />
         </div>
