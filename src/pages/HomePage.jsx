@@ -56,7 +56,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <PostList posts={state?.posts} />
+      <PostList posts={state?.posts} isComment={true} />
     </>
   );
 };

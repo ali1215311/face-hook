@@ -1,9 +1,33 @@
+import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 import { useAvatar } from "../../hooks/useAvatar";
+import useAxios from "../../hooks/useAxios";
 import PostCommentsList from "./PostCommentsList";
 
-const PostComment = ({ post }) => {
-  const avatar = useAvatar(post);
-  const comments = post?.comments;
+const PostComment = ({ post, isComment }) => {
+  const { auth } = useAuth();
+  const [comments, setComments] = useState(post?.comments);
+  const [comment, setComment] = useState("");
+  const avatar = useAvatar(post, isComment);
+
+  const api = useAxios();
+
+  const handleComment = async (e) => {
+    if (e.key === "Enter") {
+      try {
+        const response = await api.patch(`/posts/${post?.id}/comment`, {
+          comment,
+        });
+
+        if (response.status === 200) {
+          setComments([...response.data.comments]);
+          setComment("");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
   return (
     <>
       <div>
@@ -11,7 +35,7 @@ const PostComment = ({ post }) => {
           <img
             className="max-h-7 max-w-7 rounded-full lg:max-h-8.5 lg:max-w-8.5"
             src={avatar}
-            alt={post?.author?.name}
+            alt={auth?.user?.firstName}
           />
 
           <div className="flex-1">
@@ -20,6 +44,9 @@ const PostComment = ({ post }) => {
               className="bg-lighterDark h-8 w-full rounded-full px-4 text-xs focus:outline-none sm:h-9.5"
               name="post"
               id="post"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              onKeyDown={(e) => handleComment(e)}
               placeholder="What's on your mind?"
             />
           </div>

@@ -1,9 +1,12 @@
 import PostCard from "./PostCard";
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, isComment }) => {
   return (
     <>
-      {!!posts && posts.map((post) => <PostCard key={post?.id} post={post} />)}
+      {!!posts &&
+        posts.map((post) => (
+          <PostCard key={post?.id} post={post} isComment={isComment} />
+        ))}
     </>
   );
 };
