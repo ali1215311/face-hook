@@ -1,6 +1,6 @@
 import { Children } from "react";
 
-const Field = ({ children, label, htmlFor, error }) => {
+const Field = ({ children, label = "", htmlFor, error }) => {
   const id = htmlFor || getChildId(children);
   return (
     <div className="form-control">

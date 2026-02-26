@@ -8,6 +8,10 @@ export const getDifferenceDateFromNow = (postDate) => {
   let yearsPassed = Math.floor(monthsPassed / 12);
   let message;
 
+  if (secondsPassed <= 0) {
+    message = "Just now";
+  }
+
   if (secondsPassed > 0 && secondsPassed < 60) {
     let addition = secondsPassed > 1 ? " seconds ago" : " second ago";
     message = secondsPassed + addition;

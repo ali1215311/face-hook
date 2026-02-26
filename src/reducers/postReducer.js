@@ -25,6 +25,20 @@ const postReducer = (state, action) => {
         error: action.error,
       };
 
+    case actions.posts.POST_CREATED:
+      return {
+        ...state,
+        loading: false,
+        posts: [...state.posts, action.data],
+      };
+
+    case actions.posts.POST_DELETED:
+      return {
+        ...state,
+        loading: false,
+        posts: state.posts.filter((post) => post.id !== action.data),
+      };
+
     default:
       return state;
   }
